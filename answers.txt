@@ -1,0 +1,31 @@
+# Suggested theory answers — Shopping Mall Parking Fees
+
+## Question 1: OOP principles
+- **Encapsulation:** fields are private and accessed through public methods. For example, `HeavyVehicle.updateAxleCount` checks that an axle count is at least two.
+- **Inheritance:** `Car`, `Motorcycle`, and `Minibus` inherit common vehicle data from `LightVehicle`, which inherits from `Vehicle`. This avoids repeating shared fields and methods.
+- **Abstraction:** `Vehicle`, `LightVehicle`, and `HeavyVehicle` define shared contracts while leaving type-specific behaviour to concrete classes.
+- **Polymorphism:** code can call `getHourlyRate()` on a `HeavyVehicle` reference. A `Truck` calculates a rate using its axle count, while a `Bus` returns a fixed rate.
+
+## Question 2: Why use abstract classes?
+The abstract classes represent broad categories that should not be instantiated directly because their exact fee and behaviour are not defined at that level. They centralise shared fields and methods and require concrete classes to implement the missing behaviour.
+
+## Question 3: Immutable and mutable fields
+A licence plate and owner name identify the vehicle registration and are fixed when the object is created, so they are final and have no update methods. Colour and province may change, so controlled update methods are provided.
+
+## Question 4: Unit testing and TDD
+Unit tests automatically check small behaviours, such as the truck fee or rejection of an invalid axle count. Test-driven development writes a test first, implements enough code to pass it, and then refactors while keeping tests green. Compilation checks syntax and type correctness, but it does not prove that calculations or business rules are correct.
+
+## Question 5: Read-only collections
+Returning an unmodifiable list prevents callers from adding or removing registered vehicles without using the service's methods. This protects the service's control over its data. A limitation is that callers cannot directly edit the list; they must use the provided service API.
+
+## Question 6: Extending the system
+For electric vehicles, add an `ElectricCar` class or a clearly modelled charging attribute and define its parking fee/zone behaviour. If the pricing rule is shared, introduce a suitable method or pricing strategy rather than duplicating calculations. Add tests for standard fees, discounted fees, and invalid inputs.
+
+## Question 7: Design separation
+Putting everything in `Main` mixes user interaction, data storage, pricing, and vehicle behaviour. It becomes harder to test and maintain. Separate model classes represent vehicles, the service manages registration and revenue, and `Main` demonstrates how to use them.
+
+## Question 8: Invalid inputs
+Parking duration below one hour throws `IllegalArgumentException`. Heavy vehicles also reject axle counts below two. Tests confirm these rules instead of allowing invalid values to silently produce misleading results.
+
+## Question 9: Future design
+Keep common vehicle identity and shared behaviour in a parent abstraction. Let concrete vehicle classes implement type-specific pricing. Keep registration and revenue aggregation in a service. Add unit tests for every new pricing rule and use interfaces or a pricing strategy if rules become configurable.
